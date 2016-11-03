@@ -1,11 +1,13 @@
 extends layout
 
 block content
-    h1= title
-    p Welcome to #{title}
+    //h1= title
+    //p Welcome to #{title}
 
     #wrapper
+                
         #userInfo
+            h2 User Info
             p
                 strong Name:
                 |  <span id='userInfoName'></span>
@@ -19,6 +21,7 @@ block content
                 strong Location:
                 |  <span id='userInfoLocation'></span>
 
+
         h2 User List
         #userList
             table
@@ -28,3 +31,17 @@ block content
                     th Delete?
                 tbody
 
+
+        h2 Add User
+        #addUser
+            filedset
+                input#inputUserName(type=text, placeholder='Username')
+                input#inputUserEmail(type=text, placeholder='Useremail')
+                br
+                input#inputUserFullName(type='text', placeholder='full name')
+                input#inputUserAge(type='text', placeholder='age')
+                br
+                input#inputUserLocation(type='text', placeholder='location')
+                input#inputUserGender(type='text', placeholder='gender')
+                br
+                button#btnAddUser Add User
