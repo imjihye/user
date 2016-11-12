@@ -16,7 +16,7 @@ function populateTable() {
             tableContent += '<tr>';
             tableContent += '<td><a href="#" class="linkshowuser" rel="' + this.username + '">' + this.username + '</a></td>';
             tableContent += '<td>' + this.email + '</td>';
-            tableContent += '<td><a href="#" class="linkdeleteuser" rel="' + this.id + '">delete</a></td>';
+            tableContent += '<td><a href="#" class="linkdeleteuser" rel="' + this._id + '">delete</a></td>';
             tableContent += '</tr>';
         });
         $('#userList table tbody').html(tableContent);
@@ -44,7 +44,7 @@ function addUser(event){
     event.preventDefault();
 
     var errorCount = 0;
-    $('#adduser input').each(function(i, v){
+    $('#addUser input').each(function(i, v){
         if($(this).val() === '') {
             errorCount++;
         }
@@ -54,12 +54,11 @@ function addUser(event){
         var newUser = {
             'username' : $('#addUser fieldset input#inputUserName').val(),
             'email' : $('#addUser fieldset input#inputUserEmail').val(),
-            'fullname' : $('#addUser fieldset input#inputFullName').val(),
+            'fullname' : $('#addUser fieldset input#inputUserFullName').val(),
             'age' : $('#addUser fieldset input#inputUserAge').val(),
             'location' : $('#addUser fieldset input#inputUserLocation').val(),
             'gender' : $('#addUser fieldset input#inputUserGender').val()
         }
-
         $.ajax({
             type: 'POST',
             data: newUser,
@@ -78,3 +77,27 @@ function addUser(event){
         return false;
     }
 };
+
+$('#userList table tbody').on('click', 'td a.linkdeleteuser', deleteUser);
+function deleteUser(event){
+    event.preventDefault();
+
+    var confirmation = confirm('Are you sure you want to delete this user?');
+
+    if(confirmation === true){
+        $.ajax({
+            type: 'DELETE',
+            url: '/users/deleteuser/' + $(this).attr('rel')
+        }).done(function(response){
+            if(response.msg === ''){
+
+            } else{
+                alert('Error:' + response.msg);
+            }
+            populateTable();
+        })
+    }
+}
+
+
+
